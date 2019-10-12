@@ -15,15 +15,17 @@ typedef struct//定义Book信息
 	float price;
 }Book;
 
+typedef Book ElemType;//定义ElemType为Book类型
+
 typedef struct//定义顺序存储类型SqList
 {
-	Book *elem;
+	ElemType *elem;
 	int length;
 }SqList;
 
 Status InitList(SqList &L)//构造一个空的顺序表L
 {
-	L.elem = new Book[MAXSIZE];
+	L.elem = new ElemType[MAXSIZE];
 	if(!L.elem)
     {
         return OVERFLOW;
@@ -55,8 +57,7 @@ Status ListDelete(SqList &L,int i)//删除元素i
 		L.elem[j - 1] = L.elem[j];
 	}
     --L.length;
-    //PrintBookList(L);
-	return OK;
+    return OK;
 }
 
 Status DelRepeat(SqList &L)//删除书号重复图书
@@ -83,7 +84,7 @@ Status GetAvg(SqList &L)
 
     }
     avg = sum / L.length;
-    for(int j = 0; j < L.length; j++)
+    for(int j = 0; j < L.length; j++)//特殊作用，修改价格
     {
         if(L.elem[j].price < avg)
         {
@@ -99,7 +100,7 @@ Status GetAvg(SqList &L)
 
 Status CreationList(SqList &L,char *no,char *name,float &price)//储存书信息
 {
-    Book B;
+    ElemType B;
     strcpy(B.no,no);
     strcpy(B.name,name);
     B.price = price;
