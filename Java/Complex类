@@ -1,0 +1,111 @@
+import java.text.DecimalFormat;
+public class Complex {
+	private double realPart;
+	private double imaginPart;
+	
+	Complex() {
+		realPart = 0;
+		imaginPart = 0;
+	}
+	
+	Complex(double r, double i) {
+		realPart = r;
+		imaginPart = i;
+	}
+	
+	public void setReal(Complex c,double m) {//设置复数对象的实部值
+		c.realPart = m;
+	}
+	
+	public void setImagin(Complex c,double n) {//设置复数对象的虚部值
+		c.imaginPart = n;
+	}
+	
+	public double getReal(Complex c) {//获得复数对象的实部数值
+		return c.realPart;
+	}
+	
+	public double getImagin(Complex c) {//获得复数对象的虚部数值
+		return c.imaginPart;
+	}
+	
+	public Complex complexAdd(Complex a) {//加法
+		Complex result = new Complex();
+		setReal(result,getReal(this) + getReal(a));
+		setImagin(result,getImagin(this) + getImagin(a));
+		return result;
+	}
+	
+	public Complex complexSub(Complex a) {//减法
+		Complex result = new Complex();
+		setReal(result,getReal(this) - getReal(a));
+		setImagin(result,getImagin(this) - getImagin(a));
+		return result;
+	}
+	
+	public Complex complexMulti(Complex a) {//乘法
+		Complex result = new Complex();
+		setReal(result,getReal(this)*getReal(a)-getImagin(this)*getImagin(a));
+		setImagin(result,getImagin(this)*getReal(a)+getReal(this)*getImagin(a));
+		return result;
+	}
+	
+	public Complex complexDiv(Complex a) {//调用乘法方法完成除法
+		Complex result = new Complex();
+		Complex b = new Complex(getReal(a),getImagin(a)*-1);//a的共轭复数b
+		setReal(result,(getReal(this.complexMulti(b)))/getReal(a.complexMulti(b)));
+		setImagin(result,(getImagin(this.complexMulti(b)))/getReal(a.complexMulti(b)));
+		return result;
+	}
+	
+	public boolean equals(Complex a) {//比较是否相等
+		return (getReal(this) == getReal(a) && getImagin(this) == getImagin(a));
+	}
+	
+	public String toString() {//输出复数
+		String s1 = "", s2 = "";//初始实部虚部
+		if(getReal(this) != 0) {//若实部非零
+			if(getReal(this) % 1 == 0) {
+				s1 = new DecimalFormat("0").format(getReal(this));
+			}
+			else {
+				s1 = new DecimalFormat("0.00").format(getReal(this));
+			}
+		}
+		if(getImagin(this) != 0) {//若虚部非零
+			if(getImagin(this) % 1 == 0) {
+				if(getImagin(this) == 1) {
+					s2 = "i";
+				}
+				else if(getImagin(this) == -1) {
+					s2 = "-i";
+				}
+				else {
+					s2 = new DecimalFormat("0").format(getImagin(this))+"i";
+				}
+			}
+			else {
+				s2 = new DecimalFormat("0.00").format(getImagin(this))+"i";
+			}
+		}
+		//返回值
+		if(getImagin(this) < 0) {//虚部为负数
+			return s1+s2;
+		}
+		else if(getImagin(this) > 0){
+			if(getReal(this) == 0) {//虚部为正数，若实部为零
+				return s2;
+			}
+			else {
+				return s1+"+"+s2;
+			}
+		}
+		else if(getReal(this) == 0){//虚部为零，若实部为零
+			return "0";
+		}
+		else {
+			return s1;
+		}
+	}
+	
+}
