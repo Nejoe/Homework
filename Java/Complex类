@@ -1,5 +1,5 @@
 import java.text.DecimalFormat;
-public class Complex {
+class Complex {
 	private double realPart;
 	private double imaginPart;
 	
@@ -13,94 +13,94 @@ public class Complex {
 		imaginPart = i;
 	}
 	
-	public void setReal(Complex c,double m) {//设置复数对象的实部值
-		c.realPart = m;
+	public void setReal(double m) {//设置复数对象的实部值
+		realPart = m;
 	}
 	
-	public void setImagin(Complex c,double n) {//设置复数对象的虚部值
-		c.imaginPart = n;
+	public void setImagin(double m) {//设置复数对象的虚部值
+		imaginPart = m;
 	}
 	
-	public double getReal(Complex c) {//获得复数对象的实部数值
-		return c.realPart;
+	public double getReal() {//获得复数对象的实部数值
+		return realPart;
 	}
 	
-	public double getImagin(Complex c) {//获得复数对象的虚部数值
-		return c.imaginPart;
+	public double getImagin() {//获得复数对象的虚部数值
+		return imaginPart;
 	}
 	
 	public Complex complexAdd(Complex a) {//加法
 		Complex result = new Complex();
-		setReal(result,getReal(this) + getReal(a));
-		setImagin(result,getImagin(this) + getImagin(a));
+		result.setReal(realPart+a.realPart);
+		result.setImagin(imaginPart+a.imaginPart);
 		return result;
 	}
 	
 	public Complex complexSub(Complex a) {//减法
 		Complex result = new Complex();
-		setReal(result,getReal(this) - getReal(a));
-		setImagin(result,getImagin(this) - getImagin(a));
+		result.setReal(realPart-a.realPart);
+		result.setImagin(imaginPart-a.imaginPart);
 		return result;
 	}
 	
 	public Complex complexMulti(Complex a) {//乘法
 		Complex result = new Complex();
-		setReal(result,getReal(this)*getReal(a)-getImagin(this)*getImagin(a));
-		setImagin(result,getImagin(this)*getReal(a)+getReal(this)*getImagin(a));
+		result.setReal(realPart*a.realPart-imaginPart*a.imaginPart);
+		result.setImagin(imaginPart*a.realPart+realPart*a.imaginPart);
 		return result;
 	}
 	
 	public Complex complexDiv(Complex a) {//调用乘法方法完成除法
 		Complex result = new Complex();
-		Complex b = new Complex(getReal(a),getImagin(a)*-1);//a的共轭复数b
-		setReal(result,(getReal(this.complexMulti(b)))/getReal(a.complexMulti(b)));
-		setImagin(result,(getImagin(this.complexMulti(b)))/getReal(a.complexMulti(b)));
+		Complex b = new Complex(a.getReal(),a.getImagin()*-1);//a的共轭复数b
+		result.setReal((this.complexMulti(b).getReal())/a.complexMulti(b).getReal());
+		result.setImagin((this.complexMulti(b).getImagin())/a.complexMulti(b).getReal());
 		return result;
 	}
 	
 	public boolean equals(Complex a) {//比较是否相等
-		return (getReal(this) == getReal(a) && getImagin(this) == getImagin(a));
+		return (this.getReal() == a.getReal() && this.getImagin() == a.getImagin());
 	}
 	
 	public String toString() {//输出复数
 		String s1 = "", s2 = "";//初始实部虚部
-		if(getReal(this) != 0) {//若实部非零
-			if(getReal(this) % 1 == 0) {
-				s1 = new DecimalFormat("0").format(getReal(this));
+		if(this.getReal() != 0) {//若实部非零
+			if(this.getReal() % 1 == 0) {
+				s1 = new DecimalFormat("0").format(this.getReal());
 			}
 			else {
-				s1 = new DecimalFormat("0.00").format(getReal(this));
+				s1 = new DecimalFormat("0.00").format(this.getReal());
 			}
 		}
-		if(getImagin(this) != 0) {//若虚部非零
-			if(getImagin(this) % 1 == 0) {
-				if(getImagin(this) == 1) {
+		if(this.getImagin() != 0) {//若虚部非零
+			if(this.getImagin() % 1 == 0) {
+				if(this.getImagin() == 1) {
 					s2 = "i";
 				}
-				else if(getImagin(this) == -1) {
+				else if(this.getImagin() == -1) {
 					s2 = "-i";
 				}
 				else {
-					s2 = new DecimalFormat("0").format(getImagin(this))+"i";
+					s2 = new DecimalFormat("0").format(this.getImagin())+"i";
 				}
 			}
 			else {
-				s2 = new DecimalFormat("0.00").format(getImagin(this))+"i";
+				s2 = new DecimalFormat("0.00").format(this.getImagin())+"i";
 			}
 		}
 		//返回值
-		if(getImagin(this) < 0) {//虚部为负数
+		if(this.getImagin() < 0) {//虚部为负数
 			return s1+s2;
 		}
-		else if(getImagin(this) > 0){
-			if(getReal(this) == 0) {//虚部为正数，若实部为零
+		else if(this.getImagin() > 0){
+			if(this.getReal() == 0) {//虚部为正数，若实部为零
 				return s2;
 			}
 			else {
 				return s1+"+"+s2;
 			}
 		}
-		else if(getReal(this) == 0){//虚部为零，若实部为零
+		else if(this.getReal() == 0){//虚部为零，若实部为零
 			return "0";
 		}
 		else {
