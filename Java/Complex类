@@ -63,49 +63,42 @@ class Complex {
 	}
 	
 	public String toString() {//输出复数
-		String s1 = "", s2 = "";//初始实部虚部
-		if(this.getReal() != 0) {//若实部非零
-			if(this.getReal() % 1 == 0) {
-				s1 = new DecimalFormat("0").format(this.getReal());
+		String s = "";
+		DecimalFormat df = new DecimalFormat("#.##");
+		String rp = df.format(this.realPart);
+		String ip = df.format(this.imaginPart);
+		if(Math.abs(this.realPart) >= 0.005){
+			if(this.imaginPart == 0){
+				s = rp;
 			}
-			else {
-				s1 = new DecimalFormat("0.00").format(this.getReal());
+			else if(this.imaginPart == 1){
+				s = rp+"i";
 			}
-		}
-		if(this.getImagin() != 0) {//若虚部非零
-			if(this.getImagin() % 1 == 0) {
-				if(this.getImagin() == 1) {
-					s2 = "i";
-				}
-				else if(this.getImagin() == -1) {
-					s2 = "-i";
-				}
-				else {
-					s2 = new DecimalFormat("0").format(this.getImagin())+"i";
-				}
+			else if(this.imaginPart == -1){
+				s = rp+"-i";
 			}
-			else {
-				s2 = new DecimalFormat("0.00").format(this.getImagin())+"i";
+			else if(this.imaginPart > 0){
+				s = rp+"+"+ip+"i";
+			}
+			else{
+				s = rp+""+ip+"i";
 			}
 		}
-		//返回值
-		if(this.getImagin() < 0) {//虚部为负数
-			return s1+s2;
-		}
-		else if(this.getImagin() > 0){
-			if(this.getReal() == 0) {//虚部为正数，若实部为零
-				return s2;
+		else{
+			if(this.imaginPart == 0){
+				s = "0";
 			}
-			else {
-				return s1+"+"+s2;
+			else if(this.imaginPart == 1){
+				s = "i";
+			}
+			else if(this.imaginPart == -1){
+				s = "-i";
+			}
+			else{
+				s = ip+"i";
 			}
 		}
-		else if(this.getReal() == 0){//虚部为零，若实部为零
-			return "0";
-		}
-		else {
-			return s1;
-		}
+		return s;
 	}
 	
 }
