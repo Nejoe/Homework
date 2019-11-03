@@ -72,7 +72,7 @@ class Complex {
 				s = rp;
 			}
 			else if(this.imaginPart == 1){
-				s = rp+"i";
+				s = rp+"+i";
 			}
 			else if(this.imaginPart == -1){
 				s = rp+"-i";
